@@ -24,6 +24,7 @@ io.sockets.on('connection', function(socket) {
 	
 	// Waits for an event called 'message_to_server' and emits the data in the form of an event called 'message_to_client'
 	socket.on('message_to_server', function(data) {
+		//Escape messages to prevent XSS attacks
 		var escaped_message = sanitize.escape(data['message']);
 		io.sockets.emit("message_to_client", { message: escaped_message });
 	});

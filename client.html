@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="http://192.168.1.109:8080/socket.io/socket.io.js"></script>
+        <script type="text/javascript">
+		// create a socket connection to the servers socket.io module
+		var socketio = io.connect("http://192.168.1.109:8080")
+		
+		// action when receives a message
+		socketio.on("message_to_client", function(data) {
+			var chatlog = document.getElementById("chatlog");
+			chatlog.innerHTML = ("<hr/>" + 
+				data['message'] + chatlog.innerHTML);
+		});
+
+		// function to send messages to the server
+		function sendMessage() {
+			var msg = document.getElementById("message_input").value;
+			var from = document.getElementById("nickname_input").value;
+			if(msg.length > 0) {
+				if(from.length == 0) {
+					from = "Mr. Scrooge";
+				}	
+				msg = from + ': ' + msg;
+				
+				socketio.emit("message_to_server", {message: msg});
+			}
+			document.getElementById("message_input").value = "";
+		}
+
+                function testKeypress(e) {
+			if(e.keyCode == 13) {
+				sendMessage();
+			}
+		}
+        </script>
+    </head>
+    <body>
+	<div id="options">
+		<label>Your name: </label>
+		<input type="text" id="nickname_input" placeholder="Mr. Scrooge">
+		<br/>
+		<label>Message:</label>
+		<input type="text" onkeypress="return testKeypress(event)" id="message_input">
+	        <button onclick="sendMessage()">Send</button>
+	</div>
+	<div id="chatlog"></div>
+    </body>
+</html>

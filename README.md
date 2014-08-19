@@ -1,6 +1,10 @@
 #World Chat Project
 
-World Chat Project is a simple application created for study purposes using Node.js that allows people in the same network chat.
+World Chat Project allows people in the same network to chat. It's a simple application created for studying purposes using Node.js.
+
+###Technology
+
+Node.js
 
 ###For now, features include:
 * Defining a username 
